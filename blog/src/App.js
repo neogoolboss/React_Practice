@@ -25,6 +25,10 @@ function App() {
   const [title, setTitle] = useState(['자바스크립트', 'HTML', '리액트']);
   const [goodNumber, setGoodNumber] = useState([0, 0, 0]);
   const [modal, setModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState(0);
+  const [inputText, setInputText] = useState('');
+
+
   
   function onClickHandler() {
     const copyNumber = [...goodNumber];
@@ -71,9 +75,9 @@ function App() {
       {
         title.map(function(a, i){
           return (
-            <div className='list'>
-              <h4 onClick={onClickHandler4}>{ title[i] }
-              <span onClick={()=>{ const copyNumber = [...goodNumber];
+            <div className='list' key={i}>
+              <h4 onClick={() => {setModal(!modal), setModalTitle(i)}}>{ title[i] }
+              <span onClick={(e)=>{ e.stopPropagation(); const copyNumber = [...goodNumber];
                                   copyNumber[i] = copyNumber[i] + 1
                                   setGoodNumber(copyNumber);}}
               >👍</span>{goodNumber[i]}</h4> 
@@ -82,9 +86,12 @@ function App() {
             )
           })
         }
+
+        <input onChange={(e)=>{setInputText(e.target.value);
+                              console.log(inputText);}}/>
       
         {
-          modal == true ? <Modal/> : null
+          modal == true ? <Modal modalTitle={modalTitle} color={'orange'} setTitle={setTitle} title={title}/> : null
         }
 
 
